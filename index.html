@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap - Teach one. Learn one. Grow together.</title>
+    
+    <!-- External CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- External JS Libraries (Firebase) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 nav-sticky border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600">SkillSwap</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">Home</a>
+                        <a href="#skills" class="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">Skills</a>
+                        <a href="#matches" class="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">Matches</a>
+                        <a href="#profile" class="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">Profile</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    </button>
+                    <button id="signupBtn" class="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition duration-200">
+                        Sign Up
+                    </button>
+                    <div id="userMenu" class="hidden relative">
+                        <button id="userMenuBtn" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
+                            <img id="userAvatar" class="h-8 w-8 rounded-full" src="https://via.placeholder.com/32" alt="User">
+                            <span id="userName">User</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Listings</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                            <button id="logoutBtn" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-20 pb-16 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    Teach one. Learn one.<br>
+                    <span class="text-yellow-300">Grow together.</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-blue-100">
+                    A peer-to-peer skill exchange platform where knowledge flows freely
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition duration-200 flex items-center justify-center">
+                        <i class="fas fa-chalkboard-teacher mr-2"></i>
+                        Teach a Skill
+                    </button>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-200 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Learn a Skill
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose SkillSwap?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-handshake text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">Peer-to-Peer</h3>
+                        <p class="text-gray-600">Direct skill exchange between users</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-dollar-sign text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">100% Free</h3>
+                        <p class="text-gray-600">No payments, just skill-for-skill</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-globe text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">Indian Languages</h3>
+                        <p class="text-gray-600">Support for regional languages</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-orange-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">Community</h3>
+                        <p class="text-gray-600">Build lasting learning connections</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Dashboard -->
+    <section id="skills" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">Trending Skills</h2>
+                <div class="flex space-x-4">
+                    <button id="createSkillBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                        <i class="fas fa-plus mr-2"></i>Create Skill Post
+                    </button>
+                    <select id="skillFilter" class="border border-gray-300 rounded-lg px-4 py-2">
+                        <option value="all">All Categories</option>
+                        <option value="programming">Programming</option>
+                        <option value="design">Design</option>
+                        <option value="music">Music</option>
+                        <option value="language">Languages</option>
+                        <option value="cooking">Cooking</option>
+                        <option value="photography">Photography</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Skill Cards Grid -->
+            <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Sample Skill Cards -->
+                <div class="bg-white rounded-xl shadow-lg card-hover p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Teacher" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-lg">Rebecca A</h3>
+                            <span class="text-sm text-green-600 bg-green-100 px-2 py-1 rounded">Teaching</span>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Python Programming</h4>
+                    <p class="text-gray-600 mb-4">Learn Python from basics to advanced. Perfect for beginners and intermediate developers.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="skill-tag text-white px-3 py-1 rounded-full text-sm">Programming</span>
+                        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Beginner Friendly</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(24 reviews)</span>
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg card-hover p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Learner" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-lg">Priya M</h3>
+                            <span class="text-sm text-blue-600 bg-blue-100 px-2 py-1 rounded">Learning</span>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Guitar Lessons</h4>
+                    <p class="text-gray-600 mb-4">Looking to learn acoustic guitar basics. Can teach Hindi in exchange!</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="skill-tag text-white px-3 py-1 rounded-full text-sm">Music</span>
+                        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Hindi Exchange</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            Mumbai, India
+                        </div>
+                        <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-200">
+                            Offer Help
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg card-hover p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Teacher" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h3 class="font-semibold text-lg">Neha S</h3>
+                            <span class="text-sm text-green-600 bg-green-100 px-2 py-1 rounded">Teaching</span>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Graphic Design</h4>
+                    <p class="text-gray-600 mb-4">Adobe Photoshop and Illustrator tutorials. Create stunning visual designs.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="skill-tag text-white px-3 py-1 rounded-full text-sm">Design</span>
+                        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Creative</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(18 reviews)</span>
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matchmaking Section -->
+    <section id="matches" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Your Skill Matches</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Perfect Matches for You</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-lg p-4 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/40" alt="Match" class="w-10 h-10 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-semibold">Arjun K</h4>
+                                    <p class="text-sm text-gray-600">Wants to learn Python • Teaches Photography</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-600 font-semibold">95% Match</span>
+                                <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                    Connect
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/40" alt="Match" class="w-10 h-10 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-semibold">Kavya R</h4>
+                                    <p class="text-sm text-gray-600">Teaches Web Design • Wants to learn Cooking</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-600 font-semibold">88% Match</span>
+                                <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                    Connect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Active Conversations</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full mr-3">
+                                    <h4 class="font-semibold">Ravi S</h4>
+                                </div>
+                                <span class="text-xs text-gray-500">2 min ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Hi! I'd love to learn Python from you. When are you available?</p>
+                            <button class="text-blue-600 text-sm hover:text-blue-800">Reply</button>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full mr-3">
+                                    <h4 class="font-semibold">Meera T</h4>
+                                </div>
+                                <span class="text-xs text-gray-500">1 hour ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Thanks for the great design session! Same time next week?</p>
+                            <button class="text-blue-600 text-sm hover:text-blue-800">Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking System -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Schedule Your Sessions</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">Available Time Slots</h3>
+                    <div class="grid grid-cols-7 gap-2 mb-6">
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Sun</div>
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Mon</div>
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Tue</div>
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Wed</div>
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Thu</div>
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Fri</div>
+                        <div class="text-center text-sm font-semibold text-gray-600 py-2">Sat</div>
+                        
+                        <!-- Calendar Days -->
+                        <div class="text-center py-2 text-gray-400">30</div>
+                        <div class="text-center py-2 text-gray-400">31</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">1</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">2</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">3</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">4</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">5</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">6</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">7</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">8</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">9</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">10</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">11</div>
+                        <div class="text-center py-2 cursor-pointer hover:bg-blue-100 rounded">12</div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <h4 class="font-semibold">Available Times for Selected Date:</h4>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button class="border border-gray-300 px-4 py-2 rounded hover:bg-blue-50 hover:border-blue-300">9:00 AM</button>
+                            <button class="border border-gray-300 px-4 py-2 rounded hover:bg-blue-50 hover:border-blue-300">11:00 AM</button>
+                            <button class="border border-gray-300 px-4 py-2 rounded hover:bg-blue-50 hover:border-blue-300">2:00 PM</button>
+                            <button class="border border-gray-300 px-4 py-2 rounded hover:bg-blue-50 hover:border-blue-300">4:00 PM</button>
+                            <button class="border border-gray-300 px-4 py-2 rounded hover:bg-blue-50 hover:border-blue-300">6:00 PM</button>
+                            <button class="border border-gray-300 px-4 py-2 rounded hover:bg-blue-50 hover:border-blue-300">8:00 PM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">Upcoming Sessions</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-4 py-2">
+                            <h4 class="font-semibold">Python Basics</h4>
+                            <p class="text-sm text-gray-600">with Rebecca A</p>
+                            <p class="text-sm text-blue-600">Today, 3:00 PM</p>
+                            <button class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mt-1">Join Session</button>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4 py-2">
+                            <h4 class="font-semibold">Guitar Lesson</h4>
+                            <p class="text-sm text-gray-600">with Arjun K</p>
+                            <p class="text-sm text-green-600">Tomorrow, 6:00 PM</p>
+                            <button class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mt-1">Reschedule</button>
+                        </div>
+                        <div class="border-l-4 border-purple-500 pl-4 py-2">
+                            <h4 class="font-semibold">Design Review</h4>
+                            <p class="text-sm text-gray-600">with Neha S</p>
+                            <p class="text-sm text-purple-600">Friday, 4:00 PM</p>
+                            <button class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded mt-1">Prepare</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Community Reviews</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Reviewer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Amit Sharma</h4>
+                            <div class="rating-stars text-sm">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Rebecca's Python classes are amazing! She explains complex concepts so clearly. Highly recommend!"</p>
+                    <div class="text-sm text-gray-500"><i class="fas fa-user-graduate mr-1"></i>Learned Python Programming</div>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Reviewer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Priya Patel</h4>
+                            <div class="rating-stars text-sm">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Great guitar lessons from Arjun! Patient teacher and the skill exchange system works perfectly."</p>
+                    <div class="text-sm text-gray-500"><i class="fas fa-music mr-1"></i>Learned Guitar Basics</div>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/50" alt="Reviewer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Rajesh Kumar</h4>
+                            <div class="rating-stars text-sm">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Neha's design skills are top-notch! Learned so much about graphic design in just a few sessions."</p>
+                    <div class="text-sm text-gray-500"><i class="fas fa-palette mr-1"></i>Learned Graphic Design</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">SkillSwap</h3>
+                    <p class="text-gray-400 mb-4">Connecting learners and teachers through skill exchange</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">How it Works</a></li>
+                        <li><a href="#" class="hover:text-white">Success Stories</a></li>
+                        <li><a href="#" class="hover:text-white">Safety Guidelines</a></li>
+                        <li><a href="#" class="hover:text-white">Community Rules</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Report Issue</a></li>
+                        <li><a href="#" class="hover:text-white">Feedback</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Languages</h4>
+                    <select class="bg-gray-800 text-white border border-gray-700 rounded px-3 py-2 mb-4">
+                        <option>English</option>
+                        <option>हिंदी</option>
+                        <option>বাংলা</option>
+                        <option>தமிழ்</option>
+                        <option>తెలుగు</option>
+                        <option>ಕನ್ನಡ</option>
+                        <option>മലയാളം</option>
+                        <option>ગુજરાતી</option>
+                        <option>ਪੰਜਾਬੀ</option>
+                        <option>मराठी</option>
+                    </select>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 mt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2024 SkillSwap. All rights reserved.</p>
+                    <div class="flex space-x-6 text-sm text-gray-400 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white">Privacy Policy</a>
+                        <a href="#" class="hover:text-white">Terms of Service</a>
+                        <a href="#" class="hover:text-white">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Login to SkillSwap</h2>
+                <button id="closeLoginModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="loginEmail" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="loginPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                    Login
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <button id="googleLogin" class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-200 flex items-center justify-center">
+                    <i class="fab fa-google mr-2"></i>
+                    Login with Google
+                </button>
+            </div>
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Don't have an account? <a href="#" id="showSignup" class="text-blue-600 hover:text-blue-800">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Join SkillSwap</h2>
+                <button id="closeSignupModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="signupForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                    <input type="text" id="signupName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="signupEmail" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Location</label>
+                    <input type="text" id="signupLocation" placeholder="City, Country" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Languages Known</label>
+                    <input type="text" id="signupLanguages" placeholder="English, Hindi, Tamil..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="signupPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                    Sign Up
+                </button>
+            </form>
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Already have an account? <a href="#" id="showLogin" class="text-blue-600 hover:text-blue-800">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Create Skill Modal -->
+    <div id="createSkillModal" class="modal">
+        <div class="bg-white rounded-xl p-8 max-w-lg w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Create Skill Post</h2>
+                <button id="closeCreateSkillModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="createSkillForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Type</label>
+                    <select id="skillType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="">Select Type</option>
+                        <option value="teaching">I want to teach</option>
+                        <option value="learning">I want to learn</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Skill Title</label>
+                    <input type="text" id="skillTitle" placeholder="e.g., Python Programming" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                    <textarea id="skillDescription" rows="4" placeholder="Describe what you'll teach or want to learn..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Category</label>
+                    <select id="skillCategory" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="">Select Category</option>
+                        <option value="programming">Programming</option>
+                        <option value="design">Design</option>
+                        <option value="music">Music</option>
+                        <option value="language">Languages</option>
+                        <option value="cooking">Cooking</option>
+                        <option value="photography">Photography</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Skill Exchange</label>
+                    <input type="text" id="skillExchange" placeholder="What skill can you offer in return?" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                    Create Skill Post
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Scripts are linked at the very end of the body -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>
