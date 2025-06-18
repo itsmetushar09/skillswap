@@ -37,3 +37,104 @@ body {
     backdrop-filter: blur(10px); 
     background-color: rgba(255, 255, 255, 0.95); 
 }
+
+/* Chatbot NOVA */
+
+
+/* Floating Icon */
+#nova-chatbot-icon {
+    position: fixed;
+    bottom: 32px;
+    right: 36px;
+    cursor: pointer;
+    z-index: 1100;
+    box-shadow: 0 4px 16px rgba(118,75,162,0.18);
+    border-radius: 50%;
+    background: #fff;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.2s;
+  }
+  #nova-chatbot-icon:hover {
+    box-shadow: 0 8px 24px rgba(118,75,162,0.25);
+  }
+  
+  /* Chatbot Dialog */
+  .nova-chatbot-dialog {
+    background: #fff;
+    border-radius: 14px;
+    width: 330px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .nova-chatbot-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 14px 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nova-chatbot-messages {
+    height: 220px;
+    overflow-y: auto;
+    padding: 16px;
+    background: #f7f7fa;
+    flex: 1;
+  }
+  .nova-chatbot-msg {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .nova-incoming span {
+    margin-right: 8px;
+  }
+  .nova-chatbot-msg p {
+    background: #e0e7ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 0;
+    max-width: 75%;
+  }
+  .nova-chatbot-input {
+    display: flex;
+    border-top: 1px solid #eee;
+    padding: 10px;
+    background: #fff;
+  }
+  .nova-chatbot-input input {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 15px;
+  }
+  .nova-chatbot-input button {
+    background: #724ba2;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  #nova-chatbot-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+/* Chatbot code ends here */

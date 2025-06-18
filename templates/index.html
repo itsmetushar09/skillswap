@@ -630,6 +630,40 @@
             </form>
         </div>
     </div>
+
+    <!-- NOVA Chatbot -->
+     <!-- Chatbot Floating Icon -->
+<div id="nova-chatbot-icon" title="Chat with NOVA">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="20" fill="#724ba2"/>
+      <text x="50%" y="55%" text-anchor="middle" fill="#fff" font-size="20" font-family="Arial" dy=".3em">💬</text>
+    </svg>
+  </div>
+  
+  <!-- Chatbot Dialog Popup -->
+  <div id="nova-chatbot-modal" class="modal">
+    <div class="nova-chatbot-dialog">
+      <div class="nova-chatbot-header">
+        <span>NOVA</span>
+        <button id="nova-chatbot-close" title="Close">✖️</button>
+      </div>
+      <div class="nova-chatbot-messages" id="nova-chatbot-messages">
+        <div class="nova-chatbot-msg nova-incoming">
+          <span>🤖</span>
+          <p>Hi! I'm NOVA. How can I help you today?</p>
+        </div>
+      </div>
+      <div class="nova-chatbot-input">
+        <input type="text" id="nova-chatbot-input" placeholder="Type your message..." />
+        <button id="nova-chatbot-send">Send</button>
+      </div>
+    </div>
+  </div>
+  
+    
+<!-- chatbot code ends here -->
+
+
     
     <!-- Scripts are linked at the very end of the body -->
     
