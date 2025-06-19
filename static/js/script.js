@@ -174,6 +174,20 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => notification.remove(), 3000);
     }
 
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const userBtn = document.getElementById("userMenuBtn");
+    const dropdown = document.getElementById("userDropdown");
+
+    if (userBtn && dropdown) {
+      userBtn.addEventListener("click", () => {
+        dropdown.classList.toggle("hidden");
+      });
+    }
+  });
+</script>
+
     // --- Other Page Interactions ---
     document.getElementById('skillFilter')?.addEventListener('change', (e) => {
         const category = e.target.value;
